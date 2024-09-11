@@ -12,10 +12,6 @@ export default {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      penalty_expiry: {
-        type: DataTypes.DATEONLY,
-        allowNull: true,
-      },
     });
   },
 

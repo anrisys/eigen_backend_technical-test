@@ -3,7 +3,7 @@ import { DataTypes, QueryInterface } from 'sequelize';
 /** @type {import('sequelize-cli').Migration} */
 export default {
   async up(queryInterface: QueryInterface) {
-    await queryInterface.createTable('borrowed_books', {
+    await queryInterface.createTable('borrowings', {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -37,10 +37,6 @@ export default {
         type: DataTypes.DATEONLY,
         allowNull: true,
       },
-      penalty_expiry: {
-        type: DataTypes.DATEONLY,
-        allowNull: true,
-      },
       createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
@@ -57,6 +53,6 @@ export default {
   },
 
   async down(queryInterface: QueryInterface) {
-    queryInterface.dropTable('borrowed_books');
+    queryInterface.dropTable('borrowings');
   },
 };

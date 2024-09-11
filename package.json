@@ -25,7 +25,8 @@
     "db:seed": "npx ts-node ./node_modules/sequelize-cli/lib/sequelize db:seed:all",
     "db:seed:create": "npx ts-node ./node_modules/sequelize-cli/lib/sequelize seed:generate",
     "db:seed:undo": "npx ts-node ./node_modules/sequelize-cli/lib/sequelize db:seed:undo:all",
-    "db:create": "npx ts-node ./node_modules/sequelize-cli/lib/sequelize db:create"
+    "db:create": "npx ts-node ./node_modules/sequelize-cli/lib/sequelize db:create",
+    "db:drop": "npx ts-node ./node_modules/sequelize-cli/lib/sequelize db:drop"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

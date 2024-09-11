@@ -1,5 +1,7 @@
 import { QueryInterface } from 'sequelize';
 
+/** @type {import('sequelize-cli').Migration} */
+
 export default {
   up: async (queryInterface: QueryInterface) => {
     await queryInterface.bulkInsert('Members', [
