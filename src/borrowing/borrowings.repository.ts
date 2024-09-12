@@ -22,6 +22,14 @@ export class BorrowingsRepository {
     );
   }
 
+  async findBorrowingRecordByMemberCode(
+    memberCode: string,
+  ): Promise<Borrowings> {
+    return await this.borrowingsModel.findOne({
+      where: { member_id: memberCode },
+    });
+  }
+
   async findBorrowingRecord(borrowringId: number): Promise<Borrowings> {
     return await this.borrowingsModel.findByPk(borrowringId);
   }

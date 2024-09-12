@@ -9,8 +9,8 @@ import { Borrowings } from 'src/borrowing/borrowings.entity';
 
 @Table
 export class Books extends Model {
-  @Column
   @PrimaryKey
+  @Column
   code: string;
 
   @Column

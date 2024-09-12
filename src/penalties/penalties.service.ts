@@ -19,7 +19,9 @@ export class PenaltiesService {
     }
 
     const memberBorrowing =
-      await this.borrowingsRepository.findLatestBorrowingByMember(memberCode);
+      await this.borrowingsRepository.findBorrowingRecordByMemberCode(
+        memberCode,
+      );
 
     if (!memberBorrowing) {
       throw new BadRequestException(
