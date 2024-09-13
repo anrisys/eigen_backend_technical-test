@@ -19,12 +19,12 @@ export default {
         onDelete: 'CASCADE',
       },
       imposed_date: {
-        type: DataTypes.DATEONLY,
+        type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: DataTypes.NOW,
+        defaultValue: queryInterface.sequelize.literal('CURRENT_TIMESTAMP'),
       },
       due_date: {
-        type: DataTypes.DATEONLY,
+        type: DataTypes.DATE,
         allowNull: true,
       },
     });

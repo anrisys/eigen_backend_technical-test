@@ -29,12 +29,12 @@ export default {
         onDelete: 'CASCADE',
       },
       borrowed_date: {
-        type: DataTypes.DATEONLY,
+        type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: DataTypes.NOW,
+        defaultValue: queryInterface.sequelize.literal('CURRENT_TIMESTAMP'),
       },
       return_date: {
-        type: DataTypes.DATEONLY,
+        type: DataTypes.DATE,
         allowNull: true,
       },
       createdAt: {

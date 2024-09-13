@@ -26,6 +26,10 @@ export class MembersRepository {
         {
           model: Borrowings,
           attributes: [],
+          where: {
+            return_date: null,
+          },
+          required: false,
         },
       ],
       attributes: {
@@ -35,11 +39,11 @@ export class MembersRepository {
               'COUNT',
               this.sequelize.col('borrowings.book_id'),
             ),
-            'borrowedCount',
+            'burrentBorrowedBooks',
           ],
         ],
       },
-      group: ['Member.code'],
+      group: ['Members.code'],
     });
     return members;
   }

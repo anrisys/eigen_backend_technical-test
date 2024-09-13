@@ -8,7 +8,7 @@ import {
 } from 'sequelize-typescript';
 import { Borrowings } from 'src/borrowing/borrowings.entity';
 
-@Table
+@Table({ timestamps: false })
 export class Penalties extends Model {
   @Column
   imposed_date: Date;

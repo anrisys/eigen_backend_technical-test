@@ -7,7 +7,7 @@ import {
 } from 'sequelize-typescript';
 import { Borrowings } from 'src/borrowing/borrowings.entity';
 
-@Table
+@Table({ timestamps: false })
 export class Books extends Model {
   @PrimaryKey
   @Column

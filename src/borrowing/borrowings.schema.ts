@@ -2,18 +2,21 @@ import { z, ZodType } from 'zod';
 
 const memberIdSchema = z
   .string({
-    required_error: 'Member code is required',
-    invalid_type_error: 'Member code must be string',
+    required_error: 'Member ID is required',
+    invalid_type_error: 'Member ID must be string',
   })
   .trim()
-  .min(1, 'Member Code can not be blank');
+  .min(1, 'Member ID can not be blank');
 
 const bookIDSchema = z
   .array(
-    z.string({
-      required_error: 'Book ID is required',
-      invalid_type_error: 'Book ID must be a string',
-    }),
+    z
+      .string({
+        required_error: 'Book ID is required',
+        invalid_type_error: 'Book ID must be a string',
+      })
+      .trim()
+      .min(1, 'Book ID can not be blank'),
   )
   .nonempty('Books can not be empty');
 

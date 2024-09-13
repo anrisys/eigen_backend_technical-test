@@ -24,9 +24,10 @@ export class PenaltiesService {
       );
 
     if (!memberBorrowing) {
-      throw new BadRequestException(
-        'This member has not borrowed any book yet',
-      );
+      // throw new BadRequestException(
+      //   'This member has not borrowed any book yet',
+      // );
+      return false;
     }
 
     const memberPenalty = await this.penaltiesRepository.findLatestPenalty(

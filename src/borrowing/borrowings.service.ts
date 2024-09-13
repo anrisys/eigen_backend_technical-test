@@ -21,7 +21,7 @@ export class BorrowingsService {
     private penaltiesRepository: PenaltiesRepository,
   ) {}
 
-  async create(request: BorrowingBooksRequest): Promise<boolean> {
+  async borrowingBooks(request: BorrowingBooksRequest): Promise<boolean> {
     const member = await this.membersRepository.findMemberByCode(
       request.member_id,
     );
@@ -38,28 +38,28 @@ export class BorrowingsService {
       throw new BadRequestException('Member has active penalty!');
     }
 
-    const currentBorrowedBooks =
-      await this.borrowingsRepository.countUnreturnedBooksByMember(
-        request.member_id,
-      );
+    for (const bood_id of request.books_id) {
+      const currentBorrowedBooks =
+        await this.borrowingsRepository.countUnreturnedBooksByMember(
+          request.member_id,
+        );
 
-    if (currentBorrowedBooks >= 2) {
-      throw new BadRequestException('Member has already borrowed two books');
-    }
+      if (currentBorrowedBooks >= 2) {
+        throw new BadRequestException('Member has already borrowed two books');
+      }
 
-    const transaction = await this.sequelize.transaction();
+      const transaction = await this.sequelize.transaction();
 
-    try {
-      for (const bood_id of request.books_id) {
+      try {
         const book = await this.booksRepository.findOne(bood_id);
 
         if (!book) {
-          throw new BadRequestException(`Book with ID ${bood_id} not found`);
+          throw new BadRequestException(`Book with Code ${bood_id} not found`);
         }
 
         if (book.stock <= 0) {
           throw new BadRequestException(
-            `Book with ID ${bood_id} is out of stock`,
+            `Book with Code ${bood_id} is out of stock`,
           );
         }
 
@@ -73,14 +73,14 @@ export class BorrowingsService {
         }
 
         await this.booksRepository.updateStock(bood_id, -1, transaction);
-      }
 
-      await transaction.commit();
-      return true;
-    } catch (error) {
-      await transaction.rollback();
-      throw error;
+        await transaction.commit();
+      } catch (error) {
+        await transaction.rollback();
+        throw error;
+      }
     }
+    return true;
   }
 
   async returningBooks(request: ReturningBooksRequest) {
@@ -102,6 +102,14 @@ export class BorrowingsService {
     }
 
     for (const book_id of request.books_id) {
+      const book = await this.booksRepository.findOne(book_id);
+
+      if (!book) {
+        throw new BadRequestException(
+          `Book with code ${book_id} does not exist`,
+        );
+      }
+
       const currentBorrowedBooks =
         await this.borrowingsRepository.findUnreturnedBooksByMember(
           request.member_id,
@@ -118,6 +126,12 @@ export class BorrowingsService {
       try {
         const isBookReturnLate = this.isBookReturnLate(
           currentBorrowedBooks.borrowed_date,
+        );
+
+        await this.booksRepository.updateStock(
+          currentBorrowedBooks.book_id,
+          1,
+          transaction,
         );
 
         await this.borrowingsRepository.updateReturnDate(

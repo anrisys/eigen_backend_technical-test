@@ -53,27 +53,18 @@ export class BorrowingsRepository {
     return borrowed_books.count;
   }
 
-  async updateReturnDate(
-    borrowedId: number,
-    transaction: any,
-  ): Promise<Borrowings> {
+  async updateReturnDate(borrowedId: number, transaction: any): Promise<void> {
     const borrowingRecord = await this.findBorrowingRecord(borrowedId);
 
     if (!borrowingRecord) {
       throw new Error('Borrowing record not found');
     }
 
-    const [affectedRow, [updatedBorrowing]] = await this.borrowingsModel.update(
+    await this.borrowingsModel.update(
       {
         return_date: new Date(),
       },
       { where: { id: borrowedId }, transaction, returning: true },
     );
-
-    if (affectedRow === 0) {
-      throw new Error('Failed to save the returning data');
-    }
-
-    return updatedBorrowing;
   }
 }

@@ -13,7 +13,6 @@ async function bootstrap() {
     .setTitle('Library Management')
     .setDescription('The library management API')
     .setVersion('1.0')
-    .addTag('library-management')
     .build();
 
   const options: SwaggerDocumentOptions = {

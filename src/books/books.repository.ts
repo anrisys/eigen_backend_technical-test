@@ -15,7 +15,7 @@ export class BooksRepository {
     bookCode: string,
     changes: number,
     transaction?: any,
-  ): Promise<Books> {
+  ): Promise<void> {
     const book = await this.findOne(bookCode);
 
     if (!book) {
@@ -24,16 +24,10 @@ export class BooksRepository {
 
     const updatedStock = book.stock + changes;
 
-    const [affectedRow, [updatedBook]] = await this.booksModel.update(
+    await this.booksModel.update(
       { stock: updatedStock },
-      { where: { book_code: bookCode }, returning: true, transaction },
+      { where: { code: bookCode }, returning: true, transaction },
     );
-
-    if (affectedRow === 0) {
-      throw new Error('Failed to update book stock');
-    }
-
-    return updatedBook;
   }
 
   async findAllReadyBooks(): Promise<Books[]> {
